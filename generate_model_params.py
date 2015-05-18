@@ -8,11 +8,11 @@ from settings import SIGNAL_TYPES, MODEL_PARAMS_DIR, DATA_DIR
 class IncorrectHeadersException(Exception):
   pass
 
-def create_model_params(model_param_dir, model_param_name, file_name):
+def createModelParams(modelParamsDir, modelParamsName, fileName):
   
   # get the scalar values
   values = []
-  with open(file_name, 'rU') as inputFile:
+  with open(fileName, 'rU') as inputFile:
     csvReader = csv.reader(inputFile)
     headers = csvReader.next()
     
@@ -29,20 +29,20 @@ def create_model_params(model_param_dir, model_param_name, file_name):
       values.append(float(line[1]))
       
   # make sure the directory exists
-  if not os.path.exists(model_param_dir):
-      os.makedirs(model_param_dir)
+  if not os.path.exists(modelParamsDir):
+      os.makedirs(modelParamsDir)
       
   # make sure there is an init file so that we can import the model_params file later 
-  with open("%s/%s" % (model_param_dir, "__init__.py"), 'wb') as initFile:
+  with open("%s/%s" % (modelParamsDir, "__init__.py"), 'wb') as initFile:
     initFile.write("")
     
   # write the new model_params file
-  with open("%s/%s.py" % (model_param_dir, model_param_name), 'wb') as modelParamsFile:
-    min_value = min(values)
-    max_value = max(values)
+  with open("%s/%s.py" % (modelParamsDir, modelParamsName), 'wb') as modelParamsFile:
+    minValue = min(values)
+    maxValue = max(values)
     mp = TEMPLATE_MODEL_PARAMS
-    mp['modelParams']['sensorParams']['encoders']['y']['maxval'] = max_value
-    mp['modelParams']['sensorParams']['encoders']['y']['minval'] = min_value
+    mp['modelParams']['sensorParams']['encoders']['y']['maxval'] = maxValue
+    mp['modelParams']['sensorParams']['encoders']['y']['minval'] = minValue
     modelParamsFile.write("MODEL_PARAMS = %s" % repr(mp))
 
 
@@ -50,6 +50,6 @@ def create_model_params(model_param_dir, model_param_name, file_name):
 if __name__ == "__main__":
   
   for signal_type in SIGNAL_TYPES:
-    file_name = '%s/%s.csv' % (DATA_DIR, signal_type)
-    model_params_name = '%s_model_params' % signal_type
-    create_model_params(MODEL_PARAMS_DIR, model_params_name, file_name)
+    inputFileName = '%s/%s.csv' % (DATA_DIR, signal_type)
+    paramsName = '%s_model_params' % signal_type
+    createModelParams(MODEL_PARAMS_DIR, paramsName, inputFileName)

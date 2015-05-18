@@ -14,8 +14,8 @@ for signal_type in SIGNAL_TYPES:
     for i, values in enumerate(reader):
       record = dict(zip(headers, values))
       x.append(i)
-      data.append(record['sinx'])
-      labels.append(record['anomaly'])
+      data.append(record['y'])
+      labels.append(record['label'])
 
     plt.subplot(2, 1, SIGNAL_TYPES.index(signal_type) + 1)
     plt.plot(x, data)

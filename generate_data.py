@@ -25,12 +25,12 @@
 import csv
 import math
 import random
-from settings import ANOMALY_RANGES, DATA_DIR, SIGNAL_TYPES
+from settings import CLASS_RANGES, DATA_DIR, SIGNAL_TYPES
 
 class _InvalidSignalName(Exception):
   pass
   
-def generate_data(whiteNoise=False, mean=10, amplitude=1, noise_amplitude=1):
+def generateData(whiteNoise=False, signal_mean=10, signal_amplitude=1, noise_amplitude=1):
 
   if whiteNoise:
     fileName = "white_noise"
@@ -50,25 +50,26 @@ def generate_data(whiteNoise=False, mean=10, amplitude=1, noise_amplitude=1):
       noise = noise_amplitude * random.random()
     else:
       noise = 0
-    m1 = mean + amplitude * math.sin(x) + noise    
+    m1 = signal_mean + signal_amplitude * math.sin(x) + noise    
     
-    anomaly = 0
-    # Add an artificial repeating anomaly after a while
-    if i >= 2450:
-        for anomaly_range in ANOMALY_RANGES:
-          start = anomaly_range['start']
-          end = anomaly_range['end']
+    labelValue = 'label0'
 
-          if i>=start and i<=end:
-            m1 += 1.5
-            print "Anomaly at:",i, x, m1
-            anomaly = 1
+    for label in CLASS_RANGES:
+      for class_range in CLASS_RANGES[label]:
+        start = class_range['start']
+        end = class_range['end']
 
-    writer.writerow([x,m1, anomaly])
+        if i>=start and i<=end:
+          m1 += 1.5
+          labelValue = label
+          print "Values labelled with class '%s' at %s" %(labelValue, i)
+          
+
+    writer.writerow([x,m1, labelValue])
     
   fileHandle.close()
   
 
 if __name__ == "__main__":
-  generate_data(whiteNoise=False)
-  generate_data(whiteNoise=True, noise_amplitude=1)
+  generateData(whiteNoise=False, signal_mean=10, signal_amplitude=1)
+  generateData(whiteNoise=True, signal_mean=10, signal_amplitude=1, noise_amplitude=0.1)

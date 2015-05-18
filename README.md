@@ -1,10 +1,10 @@
 Sequence Classification
 =======================
 
-1. Generate the datasets: `python generate_data.py`
+* To generate the datasets: `python generate_data.py`
 
-Optional: plot data with `python plot.py`
+* To plot data: `python plot.py`
 
-2. Generate model params: `python generate_model_params.py`
+* To generate the model params: `python generate_model_params.py`
 
-3. Classify data: `python classify.py`. The classification accuracy will be printed out.
+* To classify data: `python classify.py`. The classification accuracy will be printed out.
