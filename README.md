@@ -1,10 +1,4 @@
 Sequence Classification
 =======================
 
-* To generate the datasets: `python generate_data.py`
-
-* To plot data: `python plot.py`
-
-* To generate the model params: `python generate_model_params.py`
-
-* To classify data: `python classify.py`. The classification accuracy will be printed out.
+# This work has been moved to [nupic.research/classification](https://github.com/numenta/nupic.research/tree/master/classification)
